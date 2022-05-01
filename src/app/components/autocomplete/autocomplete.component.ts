@@ -8,25 +8,29 @@ export interface functionalityGroup {
   functionalities: Functionality[];
 }
 export const _filter = (
-  opt: string[],
+  opt: Functionality[],
   value: string,
   group: string
-): string[] => {
+): Functionality[] => {
   return opt.filter(
     (item) =>
-      item.toLowerCase().includes(value.toLowerCase()) ||
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
       group.toLowerCase().includes(value.toLowerCase())
   );
 };
 
-export const find = (opt: any[], value: string): string[] => {
-  return opt.map((group) => {
+export const find = (opt: any[], value: string): Functionality => {
+  let functionality: Functionality;
+  opt.map((group) => {
     console.log('group :: ', group);
-    return group.functionalities.filter((item) => {
-      console.log('item :: ', item);
-      return item.toLowerCase().includes(value.toLowerCase());
+    group.functionalities.filter((item) => {
+      if (item.name.toLowerCase().includes(value.toLowerCase())) {
+        functionality = item;
+        return;
+      }
     });
   });
+  return functionality;
 };
 
 @Component({
@@ -35,7 +39,7 @@ export const find = (opt: any[], value: string): string[] => {
   styleUrls: ['./autocomplete.component.scss'],
 })
 export class AutocompleteComponent implements OnInit {
-  @Output() onSelectedFunc = new EventEmitter<any>();
+  @Output() onSelectedFunc = new EventEmitter<Functionality>();
 
   stateForm: FormGroup = this._formBuilder.group({
     functionalityGroup: '',
@@ -45,20 +49,19 @@ export class AutocompleteComponent implements OnInit {
     {
       letter: 'Módulo A',
       functionalities: [
-        { name: 'Funcionalidade A1' },
-        'Funcionalidade A2',
-        'Funcionalidade A3',
-        'Funcionalidade A4',
+        { name: 'Funcionalidade A1', enabled: true, expandable: false },
+        { name: 'Funcionalidade A2', enabled: true, expandable: false },
+        { name: 'Funcionalidade A3', enabled: true, expandable: false },
+        { name: 'Funcionalidade A4', enabled: true, expandable: false },
       ],
     },
     {
       letter: 'Módulo B',
       functionalities: [
-        'Funcionalidade B1',
-        'Funcionalidade B2',
-        'Funcionalidade B3',
-        'Funcionalidade B4',
-        'Funcionalidade BXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        { name: 'Funcionalidade B1', enabled: true, expandable: false },
+        { name: 'Funcionalidade B2', enabled: true, expandable: false },
+        { name: 'Funcionalidade B3', enabled: true, expandable: false },
+        { name: 'Funcionalidade B4_XXX', enabled: true, expandable: false },
       ],
     },
   ];
@@ -87,9 +90,8 @@ export class AutocompleteComponent implements OnInit {
   }
 
   doSelect(value) {
-    console.log('input >>>> ', value);
     const item = find(this.functionalityGroup, value);
-    console.log('item >>>> ', item);
+    console.log('item XXXXXXX: ', item);
     this.onSelectedFunc.emit(item);
     this.stateForm.reset();
   }

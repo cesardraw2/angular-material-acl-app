@@ -11,22 +11,24 @@ import { Functionality } from '../acl-tree/model/functionality';
 export class AclListComponent implements OnInit {
   funcListTmp: Functionality[];
 
-  displayedColumns: string[] = ['name', 'enabled'];
+  displayedColumns: string[] = ['select', 'name', 'enabled'];
   dataSource;
   selection = new SelectionModel<Functionality>(true, []);
 
   @Input()
   set funcList(_funcList: Functionality[]) {
     console.log('funcList $$$$$ ', _funcList);
-    //this.funcListTmp = _funcList;
-    //this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
-    this.dataSource = _funcList;
+    this.funcListTmp = _funcList;
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    ///this.dataSource = new MatTableDataSource(_funcList);
   }
 
   @Input()
   set newFunc(func: Functionality) {
+    console.log('func $$$$$', func);
     if (null !== func) {
-      (this.dataSource as Functionality[]).push(func);
+      this.funcListTmp.push(func);
+      this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
     }
   }
 
@@ -40,7 +42,7 @@ export class AclListComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.length;
+    const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
@@ -51,7 +53,7 @@ export class AclListComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource);
+    this.selection.select(...this.dataSource.data);
   }
 
   /** The label for the checkbox on the passed row */
@@ -60,7 +62,9 @@ export class AclListComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      this.funcList.indexOf(row as never) + 1
+      this.funcListTmp.indexOf(row as never) + 1
     }`;
   }
+
+  removeItem(item) {}
 }

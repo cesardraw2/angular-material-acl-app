@@ -15,8 +15,11 @@
           *ngFor="let group of functionalityGroupOptions | async"
           [label]="group.letter"
         >
-          <mat-option *ngFor="let name of group.names" [value]="name">
-            {{ name }}
+          <mat-option
+            *ngFor="let item of group.functionalities"
+            [value]="item.name"
+          >
+            {{ item.name }}
           </mat-option>
         </mat-optgroup>
       </mat-autocomplete>

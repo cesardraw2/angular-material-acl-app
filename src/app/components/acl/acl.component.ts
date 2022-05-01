@@ -27,6 +27,7 @@ export class AclComponent implements OnInit {
   }
 
   onSelectedFunc(func: Functionality) {
+    console.log('onSelectedFunc>>> ', func);
     this.newFunc = func;
   }
 }
