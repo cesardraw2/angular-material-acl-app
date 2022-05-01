@@ -6,7 +6,7 @@ import { Functionality } from '../acl-tree/model/functionality';
 @Component({
   selector: 'app-acl-list',
   templateUrl: './acl-list.component.html',
-  styleUrls: ['./acl-list.component.css'],
+  styleUrls: ['./acl-list.component.scss'],
 })
 export class AclListComponent implements OnInit {
   funcListTmp: Functionality[];
@@ -19,20 +19,21 @@ export class AclListComponent implements OnInit {
   set funcList(_funcList: Functionality[]) {
     console.log('funcList $$$$$ ', _funcList);
     this.funcListTmp = _funcList;
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    //this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    this.dataSource = this.funcListTmp;
   }
 
   constructor() {
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    // this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    //throw new Error('Method not implemented.');
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource.length;
     return numSelected === numRows;
   }
 
@@ -43,7 +44,7 @@ export class AclListComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSource);
   }
 
   /** The label for the checkbox on the passed row */

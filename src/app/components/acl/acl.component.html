@@ -9,16 +9,13 @@
             >Adicione ou remova funcionalidades</mat-card-subtitle
           >
           <mat-card-content align="start">
-            <p *ngIf="showFiller">{{ selectedRole | json }}</p>
-            <mat-divider>------</mat-divider>
+            <div *ngIf="showFiller" class="divider">
+              <mat-divider></mat-divider>
+            </div>
 
             <div class="autocomplete-content">
               <app-autocomplete></app-autocomplete>
-              <button mat-icon-button>
-                <mat-icon>playlist_add_check</mat-icon>
-              </button>
             </div>
-
             <app-acl-list
               [funcList]="selectedRole.functionalities"
             ></app-acl-list>

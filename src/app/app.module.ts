@@ -32,7 +32,7 @@ import { AclListComponent } from './components/acl-list/acl-list.component';
     ACLTreeComponent,
     AutocompleteComponent,
     AclComponent,
-    
+    AclListComponent,
   ],
   providers: [AclService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

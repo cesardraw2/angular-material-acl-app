@@ -1,10 +1,10 @@
-<div class="container">
+<div>
   <form [formGroup]="stateForm">
     <mat-form-field>
       <input
         type="text"
         matInput
-        placeholder="States Group"
+        placeholder="Funcionalidades"
         formControlName="functionalityGroup"
         required
         [matAutocomplete]="autoGroup"
@@ -20,5 +20,8 @@
         </mat-optgroup>
       </mat-autocomplete>
     </mat-form-field>
+    <button mat-icon-button>
+      <mat-icon>library_add</mat-icon>
+    </button>
   </form>
 </div>
