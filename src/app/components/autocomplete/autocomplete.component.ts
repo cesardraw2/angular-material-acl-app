@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+import { Functionality } from '../acl-tree/model/functionality';
 
 export interface functionalityGroup {
   letter: string;
-  names: string[];
+  functionalities: Functionality[];
 }
 export const _filter = (
   opt: string[],
@@ -19,9 +20,13 @@ export const _filter = (
 };
 
 export const find = (opt: any[], value: string): string[] => {
-  return opt.map((group) =>
-    group.filter((item) => item.toLowerCase().includes(value.toLowerCase()))
-  );
+  return opt.map((group) => {
+    console.log('group :: ', group);
+    return group.functionalities.filter((item) => {
+      console.log('item :: ', item);
+      return item.toLowerCase().includes(value.toLowerCase());
+    });
+  });
 };
 
 @Component({
@@ -39,8 +44,8 @@ export class AutocompleteComponent implements OnInit {
   functionalityGroup: functionalityGroup[] = [
     {
       letter: 'Módulo A',
-      names: [
-        'Funcionalidade A1',
+      functionalities: [
+        { name: 'Funcionalidade A1' },
         'Funcionalidade A2',
         'Funcionalidade A3',
         'Funcionalidade A4',
@@ -48,7 +53,7 @@ export class AutocompleteComponent implements OnInit {
     },
     {
       letter: 'Módulo B',
-      names: [
+      functionalities: [
         'Funcionalidade B1',
         'Funcionalidade B2',
         'Funcionalidade B3',
@@ -74,16 +79,18 @@ export class AutocompleteComponent implements OnInit {
       return this.functionalityGroup
         .map((group) => ({
           letter: group.letter,
-          names: _filter(group.names, value, group.letter),
+          functionalities: _filter(group.functionalities, value, group.letter),
         }))
-        .filter((group) => group.names.length > 0);
+        .filter((group) => group.functionalities.length > 0);
     }
     return this.functionalityGroup;
   }
 
   doSelect(value) {
     console.log('input >>>> ', value);
-    this.onSelectedFunc.emit(find(this.functionalityGroup, value));
+    const item = find(this.functionalityGroup, value);
+    console.log('item >>>> ', item);
+    this.onSelectedFunc.emit(item);
     this.stateForm.reset();
   }
 }
