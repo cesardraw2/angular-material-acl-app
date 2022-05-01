@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 
@@ -6,16 +6,32 @@ export interface functionalityGroup {
   letter: string;
   names: string[];
 }
-export const _filter = (opt: string[], value: string): string[] => {
-  const filterValue = value.toLowerCase();
-  return opt.filter((item) => item.toLowerCase().indexOf(filterValue) === 0);
+export const _filter = (
+  opt: string[],
+  value: string,
+  group: string
+): string[] => {
+  return opt.filter(
+    (item) =>
+      item.toLowerCase().includes(value.toLowerCase()) ||
+      group.toLowerCase().includes(value.toLowerCase())
+  );
 };
+
+export const find = (opt: any[], value: string): string[] => {
+  return opt.map((group) =>
+    group.filter((item) => item.toLowerCase().includes(value.toLowerCase()))
+  );
+};
+
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
 })
 export class AutocompleteComponent implements OnInit {
+  @Output() onSelectedFunc = new EventEmitter<any>();
+
   stateForm: FormGroup = this._formBuilder.group({
     functionalityGroup: '',
   });
@@ -42,7 +58,9 @@ export class AutocompleteComponent implements OnInit {
     },
   ];
   functionalityGroupOptions: Observable<functionalityGroup[]>;
+
   constructor(private _formBuilder: FormBuilder) {}
+
   ngOnInit() {
     this.functionalityGroupOptions = this.stateForm
       .get('functionalityGroup')!
@@ -56,10 +74,16 @@ export class AutocompleteComponent implements OnInit {
       return this.functionalityGroup
         .map((group) => ({
           letter: group.letter,
-          names: _filter(group.names, value),
+          names: _filter(group.names, value, group.letter),
         }))
         .filter((group) => group.names.length > 0);
     }
     return this.functionalityGroup;
+  }
+
+  doSelect(value) {
+    console.log('input >>>> ', value);
+    this.onSelectedFunc.emit(find(this.functionalityGroup, value));
+    this.stateForm.reset();
   }
 }

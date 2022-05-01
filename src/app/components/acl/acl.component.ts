@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Functionality } from '../acl-tree/model/functionality';
 import { ItemACL } from '../acl-tree/model/item-acl';
 import { ItemTree } from '../acl-tree/model/item-tree';
 import { DrawerService } from '../acl-tree/service/drawer.service';
@@ -12,6 +13,7 @@ import { DrawerService } from '../acl-tree/service/drawer.service';
 export class AclComponent implements OnInit {
   showFiller = false;
   selectedRole: ItemTree = new ItemTree();
+  newFunc: Functionality | null;
 
   @ViewChild(MatDrawer) matDrawer: MatDrawer;
   constructor(private drawerService: DrawerService) {}
@@ -22,5 +24,9 @@ export class AclComponent implements OnInit {
     this.selectedRole = role;
     console.log('selectedRole>>> ', role);
     this.drawerService.toggle(this.matDrawer);
+  }
+
+  onSelectedFunc(func: Functionality) {
+    this.newFunc = func;
   }
 }

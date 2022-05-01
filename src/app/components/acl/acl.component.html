@@ -14,10 +14,13 @@
             </div>
 
             <div class="autocomplete-content">
-              <app-autocomplete></app-autocomplete>
+              <app-autocomplete
+                (onSelectedFunc)="(onSelectedFunc)"
+              ></app-autocomplete>
             </div>
             <app-acl-list
               [funcList]="selectedRole.functionalities"
+              [newFunc]="newFunc"
             ></app-acl-list>
           </mat-card-content>
           <mat-card-actions align="end">
