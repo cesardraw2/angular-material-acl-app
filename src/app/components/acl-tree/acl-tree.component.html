@@ -28,12 +28,19 @@
   >
     <button mat-icon-button disabled></button>
     <mat-form-field appearance="fill">
-      <mat-label>New item...</mat-label>
-      <input matInput #itemValue placeholder="Ex. Lettuce" />
+      <mat-label>Digite o novo perfil</mat-label>
+      <input matInput #itemValue placeholder="Ex: ITEM_A" />
+      <button
+        mat-icon-button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="itemValue.value = ''"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
     </mat-form-field>
-    <button mat-icon-button (click)="itemValue.value = ''">
-      <mat-icon>restart_alt</mat-icon>
-    </button>
+
     <button mat-icon-button (click)="saveNode(node, itemValue.value)">
       <mat-icon>playlist_add_check</mat-icon>
     </button>
