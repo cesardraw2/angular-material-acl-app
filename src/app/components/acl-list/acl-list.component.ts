@@ -11,14 +11,14 @@ import { ItemACL } from '../acl-tree/model/item-acl';
 })
 export class AclListComponent implements OnInit {
   @Input()
-  ELEMENT_DATA: Functionality[] | [];
+  funcList: Functionality[] | [];
 
   displayedColumns: string[] = ['name', 'enabled'];
   dataSource;
   selection = new SelectionModel<Functionality>(true, []);
 
   constructor() {
-    this.dataSource = new MatTableDataSource<Functionality>(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcList);
   }
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -47,7 +47,7 @@ export class AclListComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      this.ELEMENT_DATA.indexOf(row as never) + 1
+      this.funcList.indexOf(row as never) + 1
     }`;
   }
 }

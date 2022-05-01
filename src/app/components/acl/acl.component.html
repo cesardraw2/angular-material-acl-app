@@ -12,6 +12,7 @@
 
         <span *ngIf="showFiller">{{ selectedRole | json }}</span>
         <app-autocomplete></app-autocomplete>
+        <app-acl-list [funcList]="selectedRole?.functionalities"></app-acl-list>
       </mat-drawer>
 
       <div class="example-sidenav-content">
