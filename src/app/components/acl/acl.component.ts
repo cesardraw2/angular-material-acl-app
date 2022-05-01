@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AclListComponent } from '../acl-list/acl-list.component';
 import { Functionality } from '../acl-tree/model/functionality';
-import { ItemACL } from '../acl-tree/model/item-acl';
 import { ItemTree } from '../acl-tree/model/item-tree';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
 import { DrawerService } from './service/drawer.service';
