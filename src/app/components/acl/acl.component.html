@@ -1,0 +1,24 @@
+<mat-sidenav-container class="main-container">
+  <mat-sidenav mode="side" opened></mat-sidenav>
+  <mat-sidenav-content>
+    <mat-drawer-container class="example-container" autosize>
+      <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+        <p>Auto-resizing sidenav</p>
+        <p *ngIf="showFiller">{{ selectedRole | json }}</p>
+        <p>------</p>
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+          Toggle extra text
+        </button>
+
+        <span *ngIf="showFiller">{{ selectedRole | json }}</span>
+        <app-autocomplete></app-autocomplete>
+      </mat-drawer>
+
+      <div class="example-sidenav-content">
+        <app-acl-tree
+          (onRolePropertiesRequired)="onSelectedRole($event)"
+        ></app-acl-tree>
+      </div>
+    </mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>
