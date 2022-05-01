@@ -2,7 +2,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Functionality } from '../acl-tree/model/functionality';
-import { ItemACL } from '../acl-tree/model/item-acl';
 
 @Component({
   selector: 'app-acl-list',
@@ -10,18 +9,18 @@ import { ItemACL } from '../acl-tree/model/item-acl';
   styleUrls: ['./acl-list.component.css'],
 })
 export class AclListComponent implements OnInit {
+  funcListTmp: Functionality[];
+
+  displayedColumns: string[] = ['name', 'enabled'];
+  dataSource;
+  selection = new SelectionModel<Functionality>(true, []);
+
   @Input()
   set funcList(_funcList: Functionality[]) {
     console.log('funcList $$$$$ ', _funcList);
     this.funcListTmp = _funcList;
     this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
-
-  funcListTmp: Functionality[];
-
-  displayedColumns: string[] = ['name', 'enabled'];
-  dataSource;
-  selection = new SelectionModel<Functionality>(true, []);
 
   constructor() {
     this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
