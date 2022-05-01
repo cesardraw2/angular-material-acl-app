@@ -21,13 +21,17 @@
             <app-acl-list
               [funcList]="selectedRole.functionalities"
               [newFunc]="newFunc"
+              (onSelectedItem)="onSelectedAclItem($event)"
             ></app-acl-list>
           </mat-card-content>
           <mat-card-actions align="end">
             <button (click)="showFiller = !showFiller" mat-raised-button>
               Expandir
             </button>
-            <button mat-button>Salvar</button>
+            <button mat-button mat-raised-button *ngIf="showRemoveAclItem">
+              Remover
+            </button>
+            <button mat-button mat-raised-button>Salvar</button>
           </mat-card-actions>
         </mat-card>
       </mat-drawer>

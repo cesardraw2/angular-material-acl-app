@@ -11,11 +11,13 @@ import { DrawerService } from '../acl-tree/service/drawer.service';
   styleUrls: ['./acl.component.css'],
 })
 export class AclComponent implements OnInit {
+  @ViewChild(MatDrawer) matDrawer: MatDrawer;
+
   showFiller = false;
   selectedRole: ItemTree = new ItemTree();
   newFunc: Functionality | null;
+  showRemoveAclItem: boolean = false;
 
-  @ViewChild(MatDrawer) matDrawer: MatDrawer;
   constructor(private drawerService: DrawerService) {}
 
   ngOnInit() {}
@@ -29,5 +31,9 @@ export class AclComponent implements OnInit {
   onSelectedFunc(func: Functionality) {
     console.log('onSelectedFunc>>> ', func);
     this.newFunc = func;
+  }
+
+  onSelectedAclItem(totalSelecteds: number) {
+    this.showRemoveAclItem = totalSelecteds > 0;
   }
 }

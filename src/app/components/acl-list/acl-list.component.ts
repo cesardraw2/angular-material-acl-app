@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Functionality } from '../acl-tree/model/functionality';
 
@@ -14,6 +14,11 @@ export class AclListComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'enabled'];
   dataSource;
   selection = new SelectionModel<Functionality>(true, []);
+
+  @Input()
+  set doRemoveItens(sendCommandToService: boolean | false) {
+    this.removeItems();
+  }
 
   @Input()
   set funcList(_funcList: Functionality[]) {
@@ -32,6 +37,8 @@ export class AclListComponent implements OnInit {
     }
   }
 
+  @Output() onSelectedItem = new EventEmitter<number>();
+
   constructor() {
     // this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
@@ -42,6 +49,9 @@ export class AclListComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
+
+    this.onSelectedItem.emit(numSelected);
+
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
@@ -66,5 +76,10 @@ export class AclListComponent implements OnInit {
     }`;
   }
 
-  removeItem(item) {}
+  removeItems() {
+    this.selection.selected.forEach((item) => {
+      this.funcListTmp.splice(this.funcListTmp.indexOf(item as never), 1);
+    });
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+  }
 }
