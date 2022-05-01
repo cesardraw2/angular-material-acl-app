@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { Functionality } from '../acl-tree/model/functionality';
@@ -40,6 +40,9 @@ export const find = (opt: any[], value: string): Functionality => {
 })
 export class AutocompleteComponent implements OnInit {
   @Output() onSelectedFunc = new EventEmitter<Functionality>();
+  @Input() set doReset(i) {
+    this.stateForm.reset();
+  }
 
   stateForm: FormGroup = this._formBuilder.group({
     functionalityGroup: '',

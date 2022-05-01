@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { AclListComponent } from '../acl-list/acl-list.component';
 import { Functionality } from '../acl-tree/model/functionality';
 import { ItemACL } from '../acl-tree/model/item-acl';
 import { ItemTree } from '../acl-tree/model/item-tree';
 import { DrawerService } from '../acl-tree/service/drawer.service';
+import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
 
 @Component({
   selector: 'app-acl',
@@ -12,10 +14,12 @@ import { DrawerService } from '../acl-tree/service/drawer.service';
 })
 export class AclComponent implements OnInit {
   @ViewChild(MatDrawer) matDrawer: MatDrawer;
+  @ViewChild(AclListComponent) aclListComponent: AclListComponent;
+  @ViewChild(AutocompleteComponent)
+  autocompleteComponent: AutocompleteComponent;
 
   showFiller = false;
   selectedRole: ItemTree = new ItemTree();
-  newFunc: Functionality | null;
   showRemoveAclItem: boolean = false;
 
   constructor(private drawerService: DrawerService) {}
@@ -23,17 +27,20 @@ export class AclComponent implements OnInit {
   ngOnInit() {}
 
   onSelectedRole(role: ItemTree) {
-    this.selectedRole = role;
-    console.log('selectedRole>>> ', role);
+    this.aclListComponent.funcList = role.functionalities;
     this.drawerService.toggle(this.matDrawer);
+    this.autocompleteComponent.doReset = true;
   }
 
   onSelectedFunc(func: Functionality) {
-    console.log('onSelectedFunc>>> ', func);
-    this.newFunc = func;
+    this.aclListComponent.newFunc = func;
   }
 
   onSelectedAclItem(totalSelecteds: number) {
     this.showRemoveAclItem = totalSelecteds > 0;
+  }
+
+  doRemoveAclItems() {
+    this.aclListComponent.doRemoveItems = true;
   }
 }

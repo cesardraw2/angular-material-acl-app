@@ -19,8 +19,6 @@
               ></app-autocomplete>
             </div>
             <app-acl-list
-              [funcList]="selectedRole.functionalities"
-              [newFunc]="newFunc"
               (onSelectedItem)="onSelectedAclItem($event)"
             ></app-acl-list>
           </mat-card-content>
@@ -28,7 +26,12 @@
             <button (click)="showFiller = !showFiller" mat-raised-button>
               Expandir
             </button>
-            <button mat-button mat-raised-button *ngIf="showRemoveAclItem">
+            <button
+              mat-button
+              mat-raised-button
+              (click)="doRemoveAclItems()"
+              *ngIf="showRemoveAclItem"
+            >
               Remover
             </button>
             <button mat-button mat-raised-button>Salvar</button>

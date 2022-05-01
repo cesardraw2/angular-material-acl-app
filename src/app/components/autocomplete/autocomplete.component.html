@@ -34,7 +34,11 @@
         <mat-icon>clear</mat-icon>
       </button>
     </mat-form-field>
-    <button mat-icon-button (click)="doSelect(functionality.value)">
+    <button
+      mat-icon-button
+      (click)="doSelect(functionality.value)"
+      [disabled]="!stateForm.valid"
+    >
       <mat-icon>library_add</mat-icon>
     </button>
   </form>

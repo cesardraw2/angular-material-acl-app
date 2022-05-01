@@ -12,12 +12,14 @@ export class AclListComponent implements OnInit {
   funcListTmp: Functionality[];
 
   displayedColumns: string[] = ['select', 'name', 'enabled'];
-  dataSource;
+  dataSource: MatTableDataSource<Functionality>;
   selection = new SelectionModel<Functionality>(true, []);
 
   @Input()
-  set doRemoveItens(sendCommandToService: boolean | false) {
-    this.removeItems();
+  set doRemoveItems(remove: boolean) {
+    if (remove) {
+      this.removeItems();
+    }
   }
 
   @Input()
@@ -40,7 +42,7 @@ export class AclListComponent implements OnInit {
   @Output() onSelectedItem = new EventEmitter<number>();
 
   constructor() {
-    // this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
   ngOnInit(): void {
     //throw new Error('Method not implemented.');
