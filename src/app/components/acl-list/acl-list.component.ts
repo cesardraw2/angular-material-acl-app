@@ -24,15 +24,12 @@ export class AclListComponent implements OnInit {
 
   @Input()
   set funcList(_funcList: Functionality[]) {
-    console.log('funcList $$$$$ ', _funcList);
     this.funcListTmp = _funcList;
     this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
-    ///this.dataSource = new MatTableDataSource(_funcList);
   }
 
   @Input()
   set newFunc(func: Functionality) {
-    console.log('func $$$$$', func);
     if (null !== func) {
       this.funcListTmp.push(func);
       this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);

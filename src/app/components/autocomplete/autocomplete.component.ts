@@ -22,7 +22,6 @@ export const _filter = (
 export const find = (opt: any[], value: string): Functionality => {
   let functionality: Functionality;
   opt.map((group) => {
-    console.log('group :: ', group);
     group.functionalities.filter((item) => {
       if (item.name.toLowerCase().includes(value.toLowerCase())) {
         functionality = item;
@@ -94,7 +93,6 @@ export class AutocompleteComponent implements OnInit {
 
   doSelect(value) {
     const item = find(this.functionalityGroup, value);
-    console.log('item XXXXXXX: ', item);
     this.onSelectedFunc.emit(item);
     this.stateForm.reset();
   }

@@ -4,8 +4,8 @@ import { AclListComponent } from '../acl-list/acl-list.component';
 import { Functionality } from '../acl-tree/model/functionality';
 import { ItemACL } from '../acl-tree/model/item-acl';
 import { ItemTree } from '../acl-tree/model/item-tree';
-import { DrawerService } from '../acl-tree/service/drawer.service';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
+import { DrawerService } from './service/drawer.service';
 
 @Component({
   selector: 'app-acl',
