@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { ItemACL } from '../acl-tree/model/item-acl';
 import { ItemTree } from '../acl-tree/model/item-tree';
 import { DrawerService } from '../acl-tree/service/drawer.service';
 
@@ -10,7 +11,7 @@ import { DrawerService } from '../acl-tree/service/drawer.service';
 })
 export class AclComponent implements OnInit {
   showFiller = false;
-  selectedRole: ItemTree | null;
+  selectedRole: ItemTree = new ItemTree();
 
   @ViewChild(MatDrawer) matDrawer: MatDrawer;
   constructor(private drawerService: DrawerService) {}

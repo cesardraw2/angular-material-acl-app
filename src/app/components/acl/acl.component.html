@@ -3,16 +3,33 @@
   <mat-sidenav-content>
     <mat-drawer-container class="example-container" autosize>
       <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
-        <p>Auto-resizing sidenav</p>
-        <p *ngIf="showFiller">{{ selectedRole | json }}</p>
-        <p>------</p>
-        <button (click)="showFiller = !showFiller" mat-raised-button>
-          Toggle extra text
-        </button>
+        <mat-card>
+          <mat-card-title>Funcionalidades do Perfil</mat-card-title>
+          <mat-card-subtitle
+            >Adicione ou remova funcionalidades</mat-card-subtitle
+          >
+          <mat-card-content align="start">
+            <p *ngIf="showFiller">{{ selectedRole | json }}</p>
+            <mat-divider>------</mat-divider>
 
-        <span *ngIf="showFiller">{{ selectedRole | json }}</span>
-        <app-autocomplete></app-autocomplete>
-        <app-acl-list [funcList]="selectedRole?.functionalities"></app-acl-list>
+            <div class="autocomplete-content">
+              <app-autocomplete></app-autocomplete>
+              <button mat-icon-button>
+                <mat-icon>playlist_add_check</mat-icon>
+              </button>
+            </div>
+
+            <app-acl-list
+              [funcList]="selectedRole.functionalities"
+            ></app-acl-list>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button (click)="showFiller = !showFiller" mat-raised-button>
+              Expandir
+            </button>
+            <button mat-button>Salvar</button>
+          </mat-card-actions>
+        </mat-card>
       </mat-drawer>
 
       <div class="example-sidenav-content">

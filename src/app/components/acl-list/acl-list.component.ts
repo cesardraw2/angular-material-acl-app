@@ -11,14 +11,20 @@ import { ItemACL } from '../acl-tree/model/item-acl';
 })
 export class AclListComponent implements OnInit {
   @Input()
-  funcList: Functionality[] | [];
+  set funcList(_funcList: Functionality[]) {
+    console.log('funcList $$$$$ ', _funcList);
+    this.funcListTmp = _funcList;
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+  }
+
+  funcListTmp: Functionality[];
 
   displayedColumns: string[] = ['name', 'enabled'];
   dataSource;
   selection = new SelectionModel<Functionality>(true, []);
 
   constructor() {
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcList);
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
   ngOnInit(): void {
     throw new Error('Method not implemented.');
