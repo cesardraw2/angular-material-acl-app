@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AclComponent } from './components/acl/acl.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { AclListComponent } from './components/acl-list/acl-list.component';
 
 @NgModule({
   entryComponents: [AclComponent],
@@ -31,6 +32,7 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     ACLTreeComponent,
     AutocompleteComponent,
     AclComponent,
+    AclListComponent
   ],
   providers: [AclService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
