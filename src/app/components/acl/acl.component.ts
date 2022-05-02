@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewChecked,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AclService } from '../../common/service/acl.service';
 import { AclListComponent } from '../acl-list/acl-list.component';
@@ -30,7 +36,8 @@ export class AclComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //this.aclTreeComponent.service = this.aclService;
+    console.log('this.aclTreeComponent>>>> ', this.aclTreeComponent);
+    this.aclTreeComponent.service = this.aclService;
   }
 
   onSelectedRole(role: ItemTree) {
