@@ -36,7 +36,7 @@
       class="checklist-leaf-node"
       [checked]="checklistSelection.isSelected(node)"
       (change)="aclLeafItemSelectionToggle(node)"
-      >{{ node.name }} ppppp</mat-checkbox
+      >{{ node.name }}</mat-checkbox
     >
     <button mat-icon-button (click)="addNewItem(node)">
       <mat-icon>add</mat-icon>
@@ -63,7 +63,7 @@
       [checked]="descendantsAllSelected(node)"
       [indeterminate]="descendantsPartiallySelected(node)"
       (change)="aclItemSelectionToggle(node)"
-      >{{ node.name }} uuuuu</mat-checkbox
+      >{{ node.name }}</mat-checkbox
     >
     <button mat-icon-button (click)="addNewItem(node)">
       <mat-icon>add</mat-icon>
