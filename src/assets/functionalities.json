@@ -1,0 +1,20 @@
+[
+  {
+    "letter": "Módulo A",
+    "functionalities": [
+      { "name": "Funcionalidade A1", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade A2", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade A3", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade A4", "enabled": true, "expandable": false }
+    ]
+  },
+  {
+    "letter": "Módulo B",
+    "functionalities": [
+      { "name": "Funcionalidade B1", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade B2", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade B3", "enabled": true, "expandable": false },
+      { "name": "Funcionalidade B4_XXX", "enabled": true, "expandable": false }
+    ]
+  }
+]

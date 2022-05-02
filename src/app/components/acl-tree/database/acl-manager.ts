@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IService } from '../../../common/interface/IService';
 import { ItemTree } from '../model/item-tree';
 import { ItemTreeACL } from '../model/item-tree-acl';
-import { AclService } from '../service/acl.service';
 
 /**
  * Checklist database, it can build a tree structured Json object.
@@ -10,23 +10,28 @@ import { AclService } from '../service/acl.service';
  * If a node is a category, it has children items and new items can be added under the category.
  */
 @Injectable()
-export class AclDatabase {
+export class AclManager {
   private listaACLnova: any | {};
+  private _service: IService;
   public dataChange = new BehaviorSubject<ItemTree[]>([]);
+
+  set service(pService: any) {
+    this._service = pService;
+  }
 
   get data(): ItemTree[] {
     return this.dataChange.value;
   }
 
-  constructor(private productService: AclService) {
-    this.initialize();
+  constructor() {
+    //this.initialize();
   }
 
   async initialize() {
     // Build the tree nodes from Json object. The result is a list of `ItemTree` with nested
     //     file node as children.
 
-    this.listaACLnova = await this.productService.getACLlist();
+    this.listaACLnova = await this._service.resolve();
     console.log('this.listaACLnova>>>> ', this.listaACLnova);
 
     const data: ItemTree = this.mountItemACLNovo(this.listaACLnova, 0);

@@ -5,7 +5,7 @@ import { MatDrawer } from '@angular/material/sidenav';
   providedIn: 'root',
 })
 export class DrawerService {
-  toggle(matDrawer) {
+  toggle(matDrawer: MatDrawer) {
     matDrawer.toggle();
   }
 }

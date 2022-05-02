@@ -5,7 +5,8 @@ import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
-import { AclDatabase } from './database/acl-database';
+import { AclService } from '../../common/service/acl.service';
+import { AclManager } from './database/acl-manager';
 import { ItemTree } from './model/item-tree';
 
 /**
@@ -15,7 +16,7 @@ import { ItemTree } from './model/item-tree';
   selector: 'app-acl-tree',
   templateUrl: 'acl-tree.component.html',
   styleUrls: ['acl-tree.component.scss'],
-  providers: [AclDatabase],
+  providers: [AclManager],
 })
 export class ACLTreeComponent {
   @Output() onRolePropertiesRequired = new EventEmitter<any>();
@@ -27,7 +28,7 @@ export class ACLTreeComponent {
   nestedNodeMap = new Map<ItemTree, ItemTree>();
 
   /** A selected parent node to be inserted */
-  selectedParent: ItemTree | null = null;
+  selectedParent: ItemTree = null;
 
   /** The new item's name */
   newItemName = '';
@@ -41,7 +42,10 @@ export class ACLTreeComponent {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemTree>(true /* multiple */);
 
-  constructor(private _database: AclDatabase) {
+  constructor(private aclService: AclService, private _aclManager: AclManager) {
+    _aclManager.service = this.aclService;
+    _aclManager.initialize();
+
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -57,7 +61,7 @@ export class ACLTreeComponent {
       this.treeFlattener
     );
 
-    _database.dataChange.subscribe((data) => {
+    _aclManager.dataChange.subscribe((data) => {
       this.dataSource.data = data;
       console.log('this.dataSource', this.dataSource);
     });
@@ -178,7 +182,7 @@ export class ACLTreeComponent {
   addNewItem(node: ItemTree) {
     const parentNode = this.flatNodeMap.get(node);
     console.log('xxxxxx ', parentNode);
-    this._database.insertItem(parentNode!, { name: '' } as ItemTree);
+    this._aclManager.insertItem(parentNode!, { name: '' } as ItemTree);
     this.treeControl.expand(node);
   }
 
@@ -186,18 +190,18 @@ export class ACLTreeComponent {
   saveNode(node: ItemTree, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
     console.log('yyyyyyy ', nestedNode);
-    this._database.updateItem(nestedNode!, itemValue);
+    this._aclManager.updateItem(nestedNode!, itemValue);
   }
 
   removeItem(node: ItemTree) {
     console.log('remove:: ', node);
     const parentNode = this.getParentNode(node);
     console.log('parentNode:: ', parentNode);
-    this._database.removeItems(this._database.data!, node);
+    this._aclManager.removeItems(this._aclManager.data!, node);
   }
 
   showFuncs(node: ItemTree) {
-    const item = this._database.getItem(this._database.data!, node);
+    const item = this._aclManager.getItem(this._aclManager.data!, node);
 
     console.log('###### ', item);
 
