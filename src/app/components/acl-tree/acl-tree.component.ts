@@ -1,11 +1,17 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, EventEmitter, Injectable, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injectable,
+  Input,
+  Output,
+} from '@angular/core';
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
-import { AclService } from '../../common/service/acl.service';
+import { IService } from '../../common/interface/IService';
 import { AclManager } from './database/acl-manager';
 import { ItemTree } from './model/item-tree';
 
@@ -20,6 +26,15 @@ import { ItemTree } from './model/item-tree';
 })
 export class ACLTreeComponent {
   @Output() onRolePropertiesRequired = new EventEmitter<any>();
+
+  private _service: IService;
+  @Input() set service(pService: IService) {
+    const hasInitialized: boolean = this._service !== undefined;
+    this._service = pService;
+    if (!hasInitialized) {
+      this._aclManager.initialize();
+    }
+  }
 
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<ItemTree, ItemTree>();
@@ -42,9 +57,12 @@ export class ACLTreeComponent {
   /** The selection for checklist */
   checklistSelection = new SelectionModel<ItemTree>(true /* multiple */);
 
-  constructor(private aclService: AclService, private _aclManager: AclManager) {
-    _aclManager.service = this.aclService;
-    _aclManager.initialize();
+  constructor(private _aclManager: AclManager) {
+    if (this._service !== undefined) {
+      console.log('TEM SERVICE');
+      _aclManager.service = this._service;
+      _aclManager.initialize();
+    }
 
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,

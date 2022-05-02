@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { AclService } from '../../common/service/acl.service';
 import { AclListComponent } from '../acl-list/acl-list.component';
+import { ACLTreeComponent } from '../acl-tree/acl-tree.component';
 import { Functionality } from '../acl-tree/model/functionality';
 import { ItemTree } from '../acl-tree/model/item-tree';
 import { AutocompleteComponent } from '../autocomplete/autocomplete.component';
@@ -13,6 +15,7 @@ import { DrawerService } from './service/drawer.service';
 })
 export class AclComponent implements OnInit {
   @ViewChild(MatDrawer) matDrawer: MatDrawer;
+  @ViewChild(ACLTreeComponent) aclTreeComponent: ACLTreeComponent;
   @ViewChild(AclListComponent) aclListComponent: AclListComponent;
   @ViewChild(AutocompleteComponent)
   autocompleteComponent: AutocompleteComponent;
@@ -21,7 +24,12 @@ export class AclComponent implements OnInit {
   selectedRole: ItemTree = new ItemTree();
   showRemoveAclItem: boolean = false;
 
-  constructor(private drawerService: DrawerService) {}
+  constructor(
+    private drawerService: DrawerService,
+    private aclService: AclService
+  ) {
+    this.aclTreeComponent.service = this.aclService;
+  }
 
   ngOnInit() {}
 
