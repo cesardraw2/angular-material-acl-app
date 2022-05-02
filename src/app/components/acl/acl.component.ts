@@ -27,11 +27,11 @@ export class AclComponent implements OnInit {
   constructor(
     private drawerService: DrawerService,
     private aclService: AclService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.aclTreeComponent.service = this.aclService;
   }
-
-  ngOnInit() {}
 
   onSelectedRole(role: ItemTree) {
     this.aclListComponent.funcList = role.functionalities;
