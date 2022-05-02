@@ -17,6 +17,7 @@
         {
           "name": "GPD_GESTOR",
           "type": "role",
+          "expandable": true,
           "functionalities": [
             {
               "name": "Funcionalidade B",
@@ -24,11 +25,12 @@
               "expandable": true
             }
           ],
-          "roles": null
+          "roles": []
         },
         {
           "name": "GPD_GESTOR_ADM",
           "type": "role",
+          "expandable": true,
           "functionalities": [
             {
               "name": "Funcionalidade B",
