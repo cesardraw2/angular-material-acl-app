@@ -11,7 +11,7 @@ import { ItemTreeACL } from '../model/item-tree-acl';
  */
 @Injectable()
 export class AclManager {
-  private listaACLnova: any | {};
+  private listaACLnova: ItemTree = new ItemTree();
   private _service: IService;
   public dataChange = new BehaviorSubject<ItemTree[]>([]);
 
@@ -23,16 +23,12 @@ export class AclManager {
     return this.dataChange.value;
   }
 
-  constructor() {
-    //this.initialize();
-  }
+  constructor() {}
 
-  async initialize() {
-    // Build the tree nodes from Json object. The result is a list of `ItemTree` with nested
-    //     file node as children.
+  async initialize(service) {
+    this._service = service;
 
     this.listaACLnova = await this._service.resolve();
-    console.log('this.listaACLnova>>>> ', this.listaACLnova);
 
     const data: ItemTree = this.mountItemACLNovo(this.listaACLnova, 0);
 
@@ -45,7 +41,7 @@ export class AclManager {
    * The return value is the list of `TodoItemNode`.
    */
 
-  private mountItemACLNovo(obj: any, pLevel: number): ItemTree {
+  private mountItemACLNovo(obj: ItemTree, pLevel: number): ItemTree {
     // Instancio um objeto só pra poder usá-lo na concatenação abaixo.
     const node = new ItemTreeACL();
     // Concateno os dois objetos para ter um novo objeto com as propriedades de ambos

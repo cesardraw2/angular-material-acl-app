@@ -1,6 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { BaseComponent } from '../../common/base/base-component';
+import { IbaseComponent } from '../../common/base/ibase-component';
 import { Functionality } from '../acl-tree/model/functionality';
 
 @Component({
@@ -8,11 +10,15 @@ import { Functionality } from '../acl-tree/model/functionality';
   templateUrl: './acl-list.component.html',
   styleUrls: ['./acl-list.component.scss'],
 })
-export class AclListComponent implements OnInit {
+export class AclListComponent
+  extends BaseComponent
+  implements IbaseComponent, OnInit
+{
   funcListTmp: Functionality[];
 
   displayedColumns: string[] = ['select', 'name', 'enabled'];
-  dataSource: MatTableDataSource<Functionality>;
+  dataSource: MatTableDataSource<Functionality> =
+    new MatTableDataSource<Functionality>([]);
   selection = new SelectionModel<Functionality>(true, []);
 
   @Input()
@@ -25,24 +31,33 @@ export class AclListComponent implements OnInit {
   @Input()
   set funcList(_funcList: Functionality[]) {
     this.funcListTmp = _funcList;
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    this.setDatasource();
   }
 
   @Input()
   set newFunc(func: Functionality) {
     if (null !== func) {
       this.funcListTmp.push(func);
-      this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+      this.setDatasource();
     }
   }
 
   @Output() onSelectedItem = new EventEmitter<number>();
 
   constructor() {
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    super();
+    this.resolveService = false;
   }
   ngOnInit(): void {
     //throw new Error('Method not implemented.');
+  }
+
+  init(): void {
+    this.setDatasource();
+  }
+
+  setDatasource() {
+    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -79,6 +94,6 @@ export class AclListComponent implements OnInit {
     this.selection.selected.forEach((item) => {
       this.funcListTmp.splice(this.funcListTmp.indexOf(item as never), 1);
     });
-    this.dataSource = new MatTableDataSource<Functionality>(this.funcListTmp);
+    this.setDatasource();
   }
 }

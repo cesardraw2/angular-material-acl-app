@@ -34,20 +34,13 @@ export class ACLTreeComponent
   @Output() onRolePropertiesRequired: EventEmitter<any> =
     new EventEmitter<any>();
 
-  @Input() set service(pService: IService) {
-    if (!this.hasInitialized && pService !== undefined) {
-      this.hasInitialized = true;
-      this._service = pService;
-      console.log('Inicializando ACLTreeComponent');
-      this.startACLManager();
-    }
+  protected init(): void {
+    console.log('INIT: ', this.constructor.name);
+    this.startACLManager();
   }
 
-  
-
   startACLManager() {
-    this._aclManager.service = this._service;
-    this._aclManager.initialize();
+    this._aclManager.initialize(this._service);
   }
 
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */

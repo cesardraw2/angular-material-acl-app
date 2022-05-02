@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AclService } from '../../common/service/acl.service';
+import { FunctionalitiesService } from '../../common/service/functionalities.service';
 import { AclListComponent } from '../acl-list/acl-list.component';
 import { ACLTreeComponent } from '../acl-tree/acl-tree.component';
 import { Functionality } from '../acl-tree/model/functionality';
@@ -34,12 +35,17 @@ export class AclComponent implements OnInit, DoCheck {
 
   constructor(
     private drawerService: DrawerService,
-    private aclService: AclService
+    private aclService: AclService,
+    private funcService: FunctionalitiesService
   ) {}
 
   ngDoCheck(): void {
     if (this.aclTreeComponent !== undefined) {
       this.aclTreeComponent.service = this.aclService;
+    }
+
+    if (this.autocompleteComponent !== undefined) {
+      this.autocompleteComponent.service = this.funcService;
     }
   }
 

@@ -1,5 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subject, Subscription, takeUntil, tap, timer } from 'rxjs';
+import { Component, Input, OnDestroy } from '@angular/core';
+import {
+  interval,
+  Observable,
+  PartialObserver,
+  Subject,
+  Subscription,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
 import { IService } from '../interface/IService';
 
@@ -9,27 +18,42 @@ import { IService } from '../interface/IService';
 export class BaseComponent implements OnDestroy {
   protected _service: IService;
   protected hasInitialized: boolean = false;
+  protected isItitializing: boolean = true;
   subscriptions: Subscription[] = [];
   unsubscribeAll: Subject<any> = new Subject<any>();
-  stopInitiVerify$: Subject<any> = new Subject();
+  timer$: Observable<number>;
+  timerObserver: PartialObserver<number>;
+  stopClick$ = new Subject();
+  protected resolveService: Boolean = true;
 
   constructor() {
-    // this.autoVerify();
-    this.stopInitiVerify$.subscribe(() => {
-      this.init();
-    });
+    this.autoVerify();
   }
 
   autoVerify(): void {
-    if (!this.hasInitialized) {
-      const autoPlayInter = timer(0, 2000)
-        .pipe(
-          takeUntil(this.stopInitiVerify$),
-          tap((_) => this._service === undefined)
-        )
-        .subscribe();
-    } else {
-      this.stopInitiVerify$.next(true); // this stops the timer
+    this.timer$ = interval(1000).pipe(takeUntil(this.stopClick$));
+
+    this.timerObserver = {
+      next: (_: number) => {
+        if (this._service === undefined && this.resolveService) {
+          console.log('autoVerify...');
+        } else {
+          console.log('Parando autoVerify...');
+          this.stopClick$.next(true);
+          this.isItitializing = false;
+          this.hasInitialized = true;
+          this.init();
+        }
+      },
+    };
+
+    this.timer$.subscribe(this.timerObserver);
+  }
+
+  @Input() set service(pService: IService) {
+    if (!this.hasInitialized && pService !== undefined) {
+      this.hasInitialized = true;
+      this._service = pService;
     }
   }
 

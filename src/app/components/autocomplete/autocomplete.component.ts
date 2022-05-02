@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+import { BaseComponent } from '../../common/base/base-component';
+import { IbaseComponent } from '../../common/base/ibase-component';
 import { Functionality } from '../acl-tree/model/functionality';
 
 export interface functionalityGroup {
@@ -37,7 +39,10 @@ export const find = (opt: any[], value: string): Functionality => {
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
 })
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent
+  extends BaseComponent
+  implements IbaseComponent, OnInit
+{
   @Output() onSelectedFunc = new EventEmitter<Functionality>();
   @Input() set doReset(i) {
     this.stateForm.reset();
@@ -47,29 +52,13 @@ export class AutocompleteComponent implements OnInit {
     functionalityGroup: '',
   });
 
-  functionalityGroup: functionalityGroup[] = [
-    {
-      letter: 'Módulo A',
-      functionalities: [
-        { name: 'Funcionalidade A1', enabled: true, expandable: false },
-        { name: 'Funcionalidade A2', enabled: true, expandable: false },
-        { name: 'Funcionalidade A3', enabled: true, expandable: false },
-        { name: 'Funcionalidade A4', enabled: true, expandable: false },
-      ],
-    },
-    {
-      letter: 'Módulo B',
-      functionalities: [
-        { name: 'Funcionalidade B1', enabled: true, expandable: false },
-        { name: 'Funcionalidade B2', enabled: true, expandable: false },
-        { name: 'Funcionalidade B3', enabled: true, expandable: false },
-        { name: 'Funcionalidade B4_XXX', enabled: true, expandable: false },
-      ],
-    },
-  ];
+  functionalityGroup: functionalityGroup[] = [];
+
   functionalityGroupOptions: Observable<functionalityGroup[]>;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder) {
+    super();
+  }
 
   ngOnInit() {
     this.functionalityGroupOptions = this.stateForm
@@ -78,6 +67,10 @@ export class AutocompleteComponent implements OnInit {
         startWith(''),
         map((value) => this._filterGroup(value))
       );
+  }
+
+  protected init() {
+    this.functionalityGroup = this._service.resolve();
   }
   private _filterGroup(value: string): functionalityGroup[] {
     if (value) {
