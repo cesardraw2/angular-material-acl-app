@@ -24,20 +24,7 @@
               "expandable": true
             }
           ],
-          "roles": [
-            {
-              "name": "GPD_GESTOR2",
-              "type": "role",
-              "functionalities": [
-                {
-                  "name": "Funcionalidade B2",
-                  "enabled": true,
-                  "expandable": true
-                }
-              ],
-              "roles": []
-            }
-          ]
+          "roles": []
         },
         {
           "name": "GPD_GESTOR_ADM",
