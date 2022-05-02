@@ -13,6 +13,7 @@ import { AclComponent } from './components/acl/acl.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { AclListComponent } from './components/acl-list/acl-list.component';
 import { AclService } from './common/service/acl.service';
+import { FunctionalitiesService } from './common/service/functionalities.service';
 
 @NgModule({
   entryComponents: [AclComponent],
@@ -34,7 +35,7 @@ import { AclService } from './common/service/acl.service';
     AclComponent,
     AclListComponent,
   ],
-  providers: [AclService],
+  providers: [AclService, FunctionalitiesService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })

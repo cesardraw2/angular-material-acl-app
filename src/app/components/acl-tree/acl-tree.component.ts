@@ -5,12 +5,15 @@ import {
   EventEmitter,
   Injectable,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
+import { BaseComponent } from '../../common/base/base-component';
+import { IbaseComponent } from '../../common/base/ibase-component';
 import { IService } from '../../common/interface/IService';
 import { AclManager } from './database/acl-manager';
 import { ItemTree } from './model/item-tree';
@@ -24,16 +27,27 @@ import { ItemTree } from './model/item-tree';
   styleUrls: ['acl-tree.component.scss'],
   providers: [AclManager],
 })
-export class ACLTreeComponent {
-  @Output() onRolePropertiesRequired = new EventEmitter<any>();
+export class ACLTreeComponent
+  extends BaseComponent
+  implements IbaseComponent, OnInit
+{
+  @Output() onRolePropertiesRequired: EventEmitter<any> =
+    new EventEmitter<any>();
 
-  private _service: IService;
   @Input() set service(pService: IService) {
-    const hasInitialized: boolean = this._service !== undefined;
-    this._service = pService;
-    if (!hasInitialized) {
-      this._aclManager.initialize();
+    if (!this.hasInitialized && pService !== undefined) {
+      this.hasInitialized = true;
+      this._service = pService;
+      console.log('Inicializando ACLTreeComponent');
+      this.startACLManager();
     }
+  }
+
+  
+
+  startACLManager() {
+    this._aclManager.service = this._service;
+    this._aclManager.initialize();
   }
 
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
@@ -45,9 +59,6 @@ export class ACLTreeComponent {
   /** A selected parent node to be inserted */
   selectedParent: ItemTree = null;
 
-  /** The new item's name */
-  newItemName = '';
-
   treeControl: FlatTreeControl<ItemTree>;
 
   treeFlattener: MatTreeFlattener<ItemTree, ItemTree>;
@@ -58,12 +69,14 @@ export class ACLTreeComponent {
   checklistSelection = new SelectionModel<ItemTree>(true /* multiple */);
 
   constructor(private _aclManager: AclManager) {
-    if (this._service !== undefined) {
-      /*console.log('TEM SERVICE');
-      _aclManager.service = this._service;
-      _aclManager.initialize();*/
-    }
+    super();
+  }
 
+  ngOnInit(): void {
+    this.configure();
+  }
+
+  configure() {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -79,7 +92,7 @@ export class ACLTreeComponent {
       this.treeFlattener
     );
 
-    _aclManager.dataChange.subscribe((data) => {
+    this._aclManager.dataChange.subscribe((data) => {
       this.dataSource.data = data;
       console.log('this.dataSource', this.dataSource);
     });

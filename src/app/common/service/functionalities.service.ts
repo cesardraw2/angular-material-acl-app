@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { IService } from '../interface/IService';
 
 @Injectable()
-export class AclService implements IService {
+export class FunctionalitiesService implements IService {
   constructor(private http: HttpClient) {}
 
   resolve() {
@@ -12,7 +12,7 @@ export class AclService implements IService {
   }
 
   async getACLlist() {
-    const request = this.http.get<any>('assets/roles.json');
+    const request = this.http.get<any>('assets/functionalities.json');
 
     const result = await lastValueFrom(request);
     console.log('result>>> ', result);

@@ -1,7 +1,9 @@
 import {
   AfterContentChecked,
+  AfterContentInit,
   AfterViewChecked,
   Component,
+  DoCheck,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -19,7 +21,7 @@ import { DrawerService } from './service/drawer.service';
   templateUrl: './acl.component.html',
   styleUrls: ['./acl.component.css'],
 })
-export class AclComponent implements OnInit {
+export class AclComponent implements OnInit, DoCheck {
   @ViewChild(MatDrawer) matDrawer: MatDrawer;
   @ViewChild(ACLTreeComponent) aclTreeComponent: ACLTreeComponent;
   @ViewChild(AclListComponent) aclListComponent: AclListComponent;
@@ -35,10 +37,13 @@ export class AclComponent implements OnInit {
     private aclService: AclService
   ) {}
 
-  ngOnInit() {
-    console.log('this.aclTreeComponent>>>> ', this.aclTreeComponent);
-    this.aclTreeComponent.service = this.aclService;
+  ngDoCheck(): void {
+    if (this.aclTreeComponent !== undefined) {
+      this.aclTreeComponent.service = this.aclService;
+    }
   }
+
+  ngOnInit() {}
 
   onSelectedRole(role: ItemTree) {
     this.aclListComponent.funcList = role.functionalities;
