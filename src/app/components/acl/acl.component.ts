@@ -30,7 +30,7 @@ export class AclComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.aclTreeComponent.service = this.aclService;
+    //this.aclTreeComponent.service = this.aclService;
   }
 
   onSelectedRole(role: ItemTree) {

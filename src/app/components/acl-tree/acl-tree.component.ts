@@ -59,9 +59,9 @@ export class ACLTreeComponent {
 
   constructor(private _aclManager: AclManager) {
     if (this._service !== undefined) {
-      console.log('TEM SERVICE');
+      /*console.log('TEM SERVICE');
       _aclManager.service = this._service;
-      _aclManager.initialize();
+      _aclManager.initialize();*/
     }
 
     this.treeFlattener = new MatTreeFlattener(
