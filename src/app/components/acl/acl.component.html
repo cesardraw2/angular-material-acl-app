@@ -9,10 +9,6 @@
             >Adicione ou remova funcionalidades</mat-card-subtitle
           >
           <mat-card-content align="start">
-            <div *ngIf="showFiller" class="divider">
-              <mat-divider></mat-divider>
-            </div>
-
             <div class="autocomplete-content">
               <app-autocomplete
                 (onSelectedFunc)="onSelectedFunc($event)"
@@ -23,9 +19,6 @@
             ></app-acl-list>
           </mat-card-content>
           <mat-card-actions align="end">
-            <button (click)="showFiller = !showFiller" mat-raised-button>
-              Expandir
-            </button>
             <button
               mat-button
               mat-raised-button
@@ -41,7 +34,7 @@
 
       <div class="example-sidenav-content">
         <app-acl-tree
-          (onRolePropertiesRequired)="onSelectedRole($event)"
+          (doOpenFuncProperties)="onSelectedRole($event)"
         ></app-acl-tree>
       </div>
     </mat-drawer-container>

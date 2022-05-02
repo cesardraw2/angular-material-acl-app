@@ -70,8 +70,13 @@ export class AutocompleteComponent
   }
 
   protected init() {
-    this.functionalityGroup = this._service.resolve();
+    this.getDataProvider();
   }
+
+  async getDataProvider() {
+    this.functionalityGroup = await this._service.resolve();
+  }
+
   private _filterGroup(value: string): functionalityGroup[] {
     if (value) {
       return this.functionalityGroup

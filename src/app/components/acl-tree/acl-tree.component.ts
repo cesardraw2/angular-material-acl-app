@@ -31,7 +31,7 @@ export class ACLTreeComponent
   extends BaseComponent
   implements IbaseComponent, OnInit
 {
-  @Output() onRolePropertiesRequired: EventEmitter<any> =
+  @Output() doOpenFuncProperties: EventEmitter<any> =
     new EventEmitter<any>();
 
   protected init(): void {
@@ -229,6 +229,6 @@ export class ACLTreeComponent
 
     console.log('###### ', item);
 
-    this.onRolePropertiesRequired.emit(item);
+    this.doOpenFuncProperties.emit(item);
   }
 }
