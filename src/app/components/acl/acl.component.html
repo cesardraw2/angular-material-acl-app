@@ -23,11 +23,11 @@
               mat-button
               mat-raised-button
               (click)="doRemoveAclItems()"
-              *ngIf="showRemoveAclItem"
+              [disabled]="!showRemoveAclItem"
             >
               Remover
             </button>
-            <button mat-button mat-raised-button>Salvar</button>
+            <button mat-button mat-raised-button>OK</button>
           </mat-card-actions>
         </mat-card>
       </mat-drawer>
